@@ -1,40 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace TP4P1.Models.EntityFramework;
-[PrimaryKey("UtilisateurId", "FilmId")]
-
-[Table("t_j_notation_not")]
-public partial class Notation
+namespace TP4P1.Models.EntityFramework
 {
-    [Key]
-    [Column("utl_id")]
-    public int UtilisateurId { get; set; }
+    [Table("t_j_notation_not")]
+    public partial class Notation
+    {
+        [Key]
+        [Column("utl_id")]
+        public int UtilisateurId { get; set; }
 
-    [Key]
-    [Column("flm_id")]
-    public int FilmId { get; set; }
+        [Key]
+        [Column("flm_id")]
+        public int FilmId { get; set; }
 
-    [Column("not_note")]
-    [Range(0, 5)]
-    public int Note { get; set; }
+        [Column("not_note")]
+        [Range(0, 5)]
+        public int Note { get; set; }
 
+        [ForeignKey("UtilisateurId")]
+        [InverseProperty("NotesUtilisateur")]
+        public virtual Utilisateur UtilisateurNotant { get; set; }
 
-    [ForeignKey("UtilisateurId")]
-    [InverseProperty("NotesUtilisateur")]
-    public virtual Utilisateur UtilisateurNotant { get; set; }
-
-    [ForeignKey("FilmId")]
-    [InverseProperty("NotesFilm")]
-    public virtual Film FilmNote { get; set; }
-
-
-
-
+        [ForeignKey("FilmId")]
+        [InverseProperty("NotesFilm")]
+        public virtual Film FilmNote { get; set; }
+    }
 }
-
