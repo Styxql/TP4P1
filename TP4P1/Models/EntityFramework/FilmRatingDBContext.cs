@@ -30,7 +30,8 @@ namespace TP4P1.Models.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            OnModelCreatingPartial(modelBuilder);
+            modelBuilder.Entity<Notation>()
+                           .HasKey(n => new { n.UtilisateurId, n.FilmId });
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
