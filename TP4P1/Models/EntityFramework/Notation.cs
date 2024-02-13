@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace TP4P1.Models.EntityFramework;
+[PrimaryKey("UtilisateurId", "FilmId")]
 
 [Table("t_j_notation_not")]
 public partial class Notation
