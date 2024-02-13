@@ -13,7 +13,11 @@ namespace TP4P1.Models.EntityFramework
         {
         }
 
-        public virtual DbSet<FilmRatingDBContext> FilmRating { get; set; } = null!;
+        public virtual DbSet<Film> Films { get; set; } = null!;
+        public virtual DbSet<Notation> Notations { get; set; } = null!;
+        public virtual DbSet<Utilisateur> Utilisateurs { get; set; } = null!;
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
