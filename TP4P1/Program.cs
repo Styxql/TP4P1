@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using TP4P1.Models.EntityFramework;
 namespace TP4P1
 {
     public class Program
@@ -15,8 +17,8 @@ namespace TP4P1
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            builder.Services.AddDbContext<FilmRatingDBContext>(options =>
+              options.UseNpgsql(builder.Configuration.GetConnectionString("SeriesDbContextRemote"))); if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
