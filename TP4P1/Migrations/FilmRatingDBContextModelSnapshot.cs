@@ -32,7 +32,7 @@ namespace TP4P1.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FilmId"));
 
                     b.Property<DateTime?>("DateSortie")
-                        .HasColumnType("DateTime")
+                        .HasColumnType("Date")
                         .HasColumnName("flm_datesortie");
 
                     b.Property<decimal?>("Duree")
@@ -99,7 +99,7 @@ namespace TP4P1.Migrations
 
                     b.Property<DateTime>("DateCreation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime")
+                        .HasColumnType("Date")
                         .HasColumnName("utl_datecreation")
                         .HasDefaultValueSql("now()");
 
@@ -160,7 +160,7 @@ namespace TP4P1.Migrations
                         .IsUnique()
                         .HasDatabaseName("uq_utl_mail");
 
-                    b.ToTable("T_E_UTILISATEUR_UTL");
+                    b.ToTable("t_e_utilisateur_utl");
                 });
 
             modelBuilder.Entity("TP4P1.Models.EntityFramework.Notation", b =>

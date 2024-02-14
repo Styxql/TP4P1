@@ -7,7 +7,7 @@ using System.Runtime.Intrinsics.X86;
 using Microsoft.EntityFrameworkCore;
 namespace TP4P1.Models.EntityFramework;
 
-    [Table("T_E_UTILISATEUR_UTL")]
+    [Table("t_e_utilisateur_utl")]
     public partial class Utilisateur
     {
 
@@ -64,7 +64,7 @@ namespace TP4P1.Models.EntityFramework;
 
     [Column("utl_datecreation", TypeName = "Date")]
     
-    public DateTime DateCreation { get; set; } = DateTime.Now;
+    public DateTime DateCreation { get; set; }
 
 
     [InverseProperty("UtilisateurNotant")]

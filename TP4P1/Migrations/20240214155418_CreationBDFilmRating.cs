@@ -18,7 +18,7 @@ namespace TP4P1.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     flm_titre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     flm_resume = table.Column<string>(type: "text", nullable: true),
-                    flm_datesortie = table.Column<DateTime>(type: "DateTime", nullable: true),
+                    flm_datesortie = table.Column<DateTime>(type: "Date", nullable: true),
                     flm_duree = table.Column<decimal>(type: "numeric(3,0)", nullable: true),
                     flm_genre = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true)
                 },
@@ -28,7 +28,7 @@ namespace TP4P1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "T_E_UTILISATEUR_UTL",
+                name: "t_e_utilisateur_utl",
                 columns: table => new
                 {
                     utl_id = table.Column<int>(type: "integer", nullable: false)
@@ -44,11 +44,11 @@ namespace TP4P1.Migrations
                     utl_pays = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true, defaultValue: "France"),
                     utl_latitude = table.Column<float>(type: "real", nullable: true),
                     utl_longitude = table.Column<float>(type: "real", nullable: true),
-                    utl_datecreation = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "now()")
+                    utl_datecreation = table.Column<DateTime>(type: "Date", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_T_E_UTILISATEUR_UTL", x => x.utl_id);
+                    table.PrimaryKey("PK_t_e_utilisateur_utl", x => x.utl_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,14 +72,14 @@ namespace TP4P1.Migrations
                     table.ForeignKey(
                         name: "fk_not_utl",
                         column: x => x.utl_id,
-                        principalTable: "T_E_UTILISATEUR_UTL",
+                        principalTable: "t_e_utilisateur_utl",
                         principalColumn: "utl_id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "uq_utl_mail",
-                table: "T_E_UTILISATEUR_UTL",
+                table: "t_e_utilisateur_utl",
                 column: "utl_mail",
                 unique: true);
 
@@ -98,7 +98,7 @@ namespace TP4P1.Migrations
                 name: "t_e_film_flm");
 
             migrationBuilder.DropTable(
-                name: "T_E_UTILISATEUR_UTL");
+                name: "t_e_utilisateur_utl");
         }
     }
 }
