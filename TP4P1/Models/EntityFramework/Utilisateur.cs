@@ -17,14 +17,14 @@ namespace TP4P1.Models.EntityFramework;
 
     [Column("utl_nom")]
     [StringLength(50)]
-    public string Nom { get; set; }
+    public string? Nom { get; set; }
 
     [Column("utl_prenom")]
     [StringLength(50)]
-    public string Prenom { get; set; }
+    public string? Prenom { get; set; }
 
     [Column("utl_mobile", TypeName = "char(10)")]
-    public string Mobile { get; set; }
+    public string? Mobile { get; set; }
 
     [Column("utl_mail")]
     [StringLength(100)]
@@ -36,32 +36,32 @@ namespace TP4P1.Models.EntityFramework;
 
     [Column("utl_rue")]
     [StringLength(200)]
-    public string Rue { get; set; }
+    public string? Rue { get; set; }
 
 
     [Column("utl_cp",TypeName ="char(10)")]
     [StringLength(100)]
-    public string CodePostal { get; set; }
+    public string? CodePostal { get; set; }
 
 
     [Column("utl_ville")]
     [StringLength(50)]
-    public string Ville { get; set; }
+    public string? Ville { get; set; }
 
 
     [Column("utl_pays")]
     [StringLength(100)]
     [DefaultValue("France")]
-    public string Pays { get; set; }
+    public string? Pays { get; set; }
 
 
 
     [Column("utl_latitude")]
-    public float Latitude { get; set; }
+    public float? Latitude { get; set; }
     [Column("utl_longitude")]
-    public float Longitude { get; set; }
+    public float? Longitude { get; set; }
 
-    [Column("utl_datecreation")]
+    [Column("utl_datecreation", TypeName = "DateTime")]
     public DateTime DateCreation { get; set; } = DateTime.Now.Date;
 
     [InverseProperty("UtilisateurNotant")]

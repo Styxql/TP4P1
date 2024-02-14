@@ -22,18 +22,18 @@ public partial class Film
 
 
     [Column("flm_resume",TypeName = "text")]
-    public string Resume { get; set; }
+    public string? Resume { get; set; }
 
-    [Column("flm_datesortie")]
-    public DateTime DateSortie { get; set; }
+    [Column("flm_datesortie", TypeName = "DateTime")]
+    public DateTime? DateSortie { get; set; }
 
     
     [Column("flm_duree",TypeName = "numeric(3,0)")]
-    public int Duree { get; set; }
+    public int? Duree{ get; set; }
 
     [Column("flm_genre")]
     [StringLength(30)]
-    public string Genre { get; set; }
+    public string? Genre { get; set; }
 
 
     [InverseProperty("FilmNote")]

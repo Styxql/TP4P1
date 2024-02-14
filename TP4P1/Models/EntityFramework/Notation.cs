@@ -8,7 +8,7 @@ namespace TP4P1.Models.EntityFramework
     {
         [Key]
         [Column("utl_id")]
-        public int UtilisateurId { get; set; }
+        public int UtilisateurId { get; set; } 
 
         [Key]
         [Column("flm_id")]
@@ -16,7 +16,7 @@ namespace TP4P1.Models.EntityFramework
 
         [Column("not_note")]
         [Range(0, 5)]
-        public int Note { get; set; }
+        public int Note { get; set; } 
 
         [ForeignKey("UtilisateurId")]
         [InverseProperty("NotesUtilisateur")]
