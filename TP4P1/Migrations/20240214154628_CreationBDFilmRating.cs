@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TP4P1.Migrations
 {
-    public partial class CreationBDFilmRatings : Migration
+    public partial class CreationBDFilmRating : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,14 +17,14 @@ namespace TP4P1.Migrations
                     flm_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     flm_titre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    flm_resume = table.Column<string>(type: "text", nullable: false),
-                    flm_datesortie = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    flm_duree = table.Column<decimal>(type: "numeric(3,0)", nullable: false),
-                    flm_genre = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
+                    flm_resume = table.Column<string>(type: "text", nullable: true),
+                    flm_datesortie = table.Column<DateTime>(type: "DateTime", nullable: true),
+                    flm_duree = table.Column<decimal>(type: "numeric(3,0)", nullable: true),
+                    flm_genre = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_e_film_flm", x => x.flm_id);
+                    table.PrimaryKey("pk_film", x => x.flm_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,18 +33,18 @@ namespace TP4P1.Migrations
                 {
                     utl_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    utl_nom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    utl_prenom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    utl_mobile = table.Column<string>(type: "char(10)", nullable: false),
+                    utl_nom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    utl_prenom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    utl_mobile = table.Column<string>(type: "char(10)", nullable: true),
                     utl_mail = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     utl_pwd = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    utl_rue = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    utl_cp = table.Column<string>(type: "char(100)", maxLength: 100, nullable: false),
-                    utl_ville = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    utl_pays = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    utl_latitude = table.Column<float>(type: "real", nullable: false),
-                    utl_longitude = table.Column<float>(type: "real", nullable: false),
-                    utl_datecreation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    utl_rue = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    utl_cp = table.Column<string>(type: "char(100)", maxLength: 100, nullable: true),
+                    utl_ville = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    utl_pays = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true, defaultValue: "France"),
+                    utl_latitude = table.Column<float>(type: "real", nullable: true),
+                    utl_longitude = table.Column<float>(type: "real", nullable: true),
+                    utl_datecreation = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -62,19 +62,26 @@ namespace TP4P1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_j_notation_not", x => new { x.utl_id, x.flm_id });
+                    table.CheckConstraint("CK_t_j_notation_not_ck_not_note", "not_note between 0 and 5");
                     table.ForeignKey(
-                        name: "FK_t_j_notation_not_t_e_film_flm_flm_id",
+                        name: "fk_not_flm",
                         column: x => x.flm_id,
                         principalTable: "t_e_film_flm",
                         principalColumn: "flm_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_t_j_notation_not_T_E_UTILISATEUR_UTL_utl_id",
+                        name: "fk_not_utl",
                         column: x => x.utl_id,
                         principalTable: "T_E_UTILISATEUR_UTL",
                         principalColumn: "utl_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "uq_utl_mail",
+                table: "T_E_UTILISATEUR_UTL",
+                column: "utl_mail",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_j_notation_not_flm_id",

@@ -24,7 +24,7 @@ public partial class Film
     [Column("flm_resume",TypeName = "text")]
     public string? Resume { get; set; }
 
-    [Column("flm_datesortie", TypeName = "DateTime")]
+    [Column("flm_datesortie", TypeName = "Date")]
     public DateTime? DateSortie { get; set; }
 
     

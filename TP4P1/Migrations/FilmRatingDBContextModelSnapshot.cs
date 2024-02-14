@@ -31,22 +31,20 @@ namespace TP4P1.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FilmId"));
 
-                    b.Property<DateTime>("DateSortie")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<DateTime?>("DateSortie")
+                        .HasColumnType("DateTime")
                         .HasColumnName("flm_datesortie");
 
-                    b.Property<decimal>("Duree")
+                    b.Property<decimal?>("Duree")
                         .HasColumnType("numeric(3,0)")
                         .HasColumnName("flm_duree");
 
                     b.Property<string>("Genre")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("flm_genre");
 
                     b.Property<string>("Resume")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("flm_resume");
 
@@ -56,7 +54,8 @@ namespace TP4P1.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("flm_titre");
 
-                    b.HasKey("FilmId");
+                    b.HasKey("FilmId")
+                        .HasName("pk_film");
 
                     b.ToTable("t_e_film_flm");
                 });
@@ -80,6 +79,8 @@ namespace TP4P1.Migrations
                     b.HasIndex("FilmId");
 
                     b.ToTable("t_j_notation_not");
+
+                    b.HasCheckConstraint("ck_not_note", "not_note between 0 and 5");
                 });
 
             modelBuilder.Entity("TP4P1.Models.EntityFramework.Utilisateur", b =>
@@ -92,20 +93,21 @@ namespace TP4P1.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CodePostal")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("char(100)")
                         .HasColumnName("utl_cp");
 
                     b.Property<DateTime>("DateCreation")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("utl_datecreation");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasColumnName("utl_datecreation")
+                        .HasDefaultValueSql("now()");
 
-                    b.Property<float>("Latitude")
+                    b.Property<float?>("Latitude")
                         .HasColumnType("real")
                         .HasColumnName("utl_latitude");
 
-                    b.Property<float>("Longitude")
+                    b.Property<float?>("Longitude")
                         .HasColumnType("real")
                         .HasColumnName("utl_longitude");
 
@@ -116,24 +118,22 @@ namespace TP4P1.Migrations
                         .HasColumnName("utl_mail");
 
                     b.Property<string>("Mobile")
-                        .IsRequired()
                         .HasColumnType("char(10)")
                         .HasColumnName("utl_mobile");
 
                     b.Property<string>("Nom")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("utl_nom");
 
                     b.Property<string>("Pays")
-                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
+                        .HasDefaultValue("France")
                         .HasColumnName("utl_pays");
 
                     b.Property<string>("Prenom")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("utl_prenom");
@@ -145,18 +145,20 @@ namespace TP4P1.Migrations
                         .HasColumnName("utl_pwd");
 
                     b.Property<string>("Rue")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
                         .HasColumnName("utl_rue");
 
                     b.Property<string>("Ville")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("utl_ville");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Mail")
+                        .IsUnique()
+                        .HasDatabaseName("uq_utl_mail");
 
                     b.ToTable("T_E_UTILISATEUR_UTL");
                 });
@@ -166,14 +168,16 @@ namespace TP4P1.Migrations
                     b.HasOne("TP4P1.Models.EntityFramework.Film", "FilmNote")
                         .WithMany("NotesFilm")
                         .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_not_flm");
 
                     b.HasOne("TP4P1.Models.EntityFramework.Utilisateur", "UtilisateurNotant")
                         .WithMany("NotesUtilisateur")
                         .HasForeignKey("UtilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_not_utl");
 
                     b.Navigation("FilmNote");
 

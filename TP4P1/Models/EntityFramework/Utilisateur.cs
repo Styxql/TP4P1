@@ -25,9 +25,10 @@ namespace TP4P1.Models.EntityFramework;
 
     [Column("utl_mobile", TypeName = "char(10)")]
     public string? Mobile { get; set; }
-
+   
     [Column("utl_mail")]
     [StringLength(100)]
+
     public string Mail { get; set; } = null!;
 
     [Column("utl_pwd")]
@@ -61,8 +62,10 @@ namespace TP4P1.Models.EntityFramework;
     [Column("utl_longitude")]
     public float? Longitude { get; set; }
 
-    [Column("utl_datecreation", TypeName = "DateTime")]
-    public DateTime DateCreation { get; set; } = DateTime.Now.Date;
+    [Column("utl_datecreation", TypeName = "Date")]
+    
+    public DateTime DateCreation { get; set; } = DateTime.Now;
+
 
     [InverseProperty("UtilisateurNotant")]
     public virtual ICollection<Notation> NotesUtilisateur { get; set; } = new List<Notation>();
