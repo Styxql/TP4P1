@@ -15,10 +15,13 @@ namespace TP4P1
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
 
             builder.Services.AddDbContext<FilmRatingDBContext>(options =>
-              options.UseNpgsql(builder.Configuration.GetConnectionString("SeriesDbContextRemote"))); if (app.Environment.IsDevelopment())
+              options.UseNpgsql(builder.Configuration.GetConnectionString("SeriesDbContextRemote")));
+
+            var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

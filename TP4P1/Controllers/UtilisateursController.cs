@@ -9,7 +9,7 @@ using TP4P1.Models.EntityFramework;
 
 namespace TP4P1.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UtilisateursController : ControllerBase
     {
@@ -33,7 +33,9 @@ namespace TP4P1.Controllers
 
         // GET: api/Utilisateurs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Utilisateur>> GetUtilisateur(int id)
+        [ActionName("Get01")]
+
+        public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
           if (_context.Utilisateurs == null)
           {
@@ -48,10 +50,24 @@ namespace TP4P1.Controllers
 
             return utilisateur;
         }
+        [HttpGet("{email}")]
+        [ActionName("Get02")]
+        public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
+        {
+            if(_context.Utilisateurs == null) { return NotFound(); }
+            var utilisateur = await _context.Utilisateurs.FindAsync(email);
+            if(utilisateur ==null)
+            {
+                return NotFound();
+            }
+            return utilisateur;
+        }
 
         // PUT: api/Utilisateurs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ActionName("Put01")]
+
         public async Task<IActionResult> PutUtilisateur(int id, Utilisateur utilisateur)
         {
             if (id != utilisateur.Id)
@@ -83,6 +99,8 @@ namespace TP4P1.Controllers
         // POST: api/Utilisateurs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ActionName("Post01")]
+
         public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
         {
           if (_context.Utilisateurs == null)
@@ -97,6 +115,8 @@ namespace TP4P1.Controllers
 
         // DELETE: api/Utilisateurs/5
         [HttpDelete("{id}")]
+        [ActionName("Delete01")]
+
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
             if (_context.Utilisateurs == null)
@@ -119,5 +139,7 @@ namespace TP4P1.Controllers
         {
             return (_context.Utilisateurs?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        
     }
 }
