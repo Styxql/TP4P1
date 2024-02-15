@@ -2,12 +2,13 @@
 
 namespace TP4P1.Models.Repository
 {
-   
+    
  public interface IDataRepository<TEntity>
     {
         ActionResult<IEnumerable<TEntity>> GetAll();
         ActionResult<TEntity> GetById(int id);
-        Task<ActionResult<TEntity>> GetByStringAsync(string str); void Add(TEntity entity);
+        Task<ActionResult<TEntity>> GetByStringAsync(string str);
+        void Add(TEntity entity);
         void Update(TEntity entityToUpdate, TEntity entity);
         void Delete(TEntity entity);
     }
