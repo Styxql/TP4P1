@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using TP4P1.Models.DataManager;
 using TP4P1.Models.EntityFramework;
+using TP4P1.Models.Repository;
+
 namespace TP4P1
 {
     public class Program
@@ -15,6 +18,7 @@ namespace TP4P1
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<IDataRepository<Utilisateur>, UtilisateurManager>();
 
             builder.Services.AddDbContext<FilmRatingDBContext>(options =>
               options.UseNpgsql(builder.Configuration.GetConnectionString("SeriesDbContextRemote")));

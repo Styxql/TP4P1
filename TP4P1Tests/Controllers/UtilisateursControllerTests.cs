@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using TP4P1.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using TP4P1.Models.DataManager;
+using TP4P1.Models.Repository;
+using System.Security.Cryptography;
 
 namespace TP4P1.Controllers.Tests
 {
@@ -16,14 +19,13 @@ namespace TP4P1.Controllers.Tests
     {
         private UtilisateursController _controller;
         private FilmRatingDBContext _context;
-
-        [TestInitialize]
-        public void Initialize()
+        private IDataRepository<Utilisateur> dataRepository;
+        public UtilisateursControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<FilmRatingDBContext>().UseNpgsql("Server = localhost; port=5432;Database=TP4; uid=postgres;password=postgres;");
+            var builder = new DbContextOptionsBuilder<FilmRatingDBContext>().UseNpgsql("Server = localhost; port = 5432; Database = TP4; uid = postgres; \npassword = postgres;");
             _context = new FilmRatingDBContext(builder.Options);
-
-            _controller = new UtilisateursController(_context); // Initialisation du contrôleur avec le contexte
+            dataRepository = new UtilisateurManager(_context);
+            _controller = new UtilisateursController(dataRepository);
         }
 
         [TestMethod()]
