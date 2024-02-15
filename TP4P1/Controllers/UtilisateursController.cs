@@ -78,7 +78,7 @@ namespace TP4P1.Controllers
             }
             else
             {
-                dataRepository.Update(userToUpdate.Value, utilisateur);
+                dataRepository.UpdateAsync(userToUpdate.Value, utilisateur);
                 return NoContent();
             }
         }
