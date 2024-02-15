@@ -54,12 +54,20 @@ namespace TP4P1.Controllers
         [ActionName("Get02")]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
         {
-            if(_context.Utilisateurs == null) { return NotFound(); }
-            var utilisateur = await _context.Utilisateurs.FindAsync(email);
-            if(utilisateur ==null)
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email ne peut pas être vide");
+            }
+            if (_context.Utilisateurs == null) { return NotFound(); }
+            var utilisateurs = await _context.Utilisateurs.ToListAsync();
+
+            var utilisateur = utilisateurs.FirstOrDefault(u => u.Mail.Equals(email, StringComparison.OrdinalIgnoreCase));
+
+            if (utilisateur == null)
             {
                 return NotFound();
             }
+
             return utilisateur;
         }
 
@@ -110,7 +118,7 @@ namespace TP4P1.Controllers
             _context.Utilisateurs.Add(utilisateur);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUtilisateur", new { id = utilisateur.Id }, utilisateur);
+            return CreatedAtAction("GetUtilisateurs", new { id = utilisateur.Id }, utilisateur);
         }
 
         // DELETE: api/Utilisateurs/5

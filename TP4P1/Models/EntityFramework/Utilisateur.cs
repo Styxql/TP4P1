@@ -25,11 +25,14 @@ namespace TP4P1.Models.EntityFramework;
 
     [Column("utl_mobile", TypeName = "char(10)")]
     public string? Mobile { get; set; }
-   
-    [Column("utl_mail")]
-    [StringLength(100)]
 
+    [Required]
+
+    [Column("utl_mail")]
+    [EmailAddress]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "La longueur d’un email doit être comprise entre 6 et 100 caractères.")]
     public string Mail { get; set; } = null!;
+
 
     [Column("utl_pwd")]
     [StringLength(100)]
