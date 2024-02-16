@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using TP4P1.Models.DataManager;
 using TP4P1.Models.Repository;
 using System.Security.Cryptography;
+using Moq;
 
 namespace TP4P1.Controllers.Tests
 {
@@ -44,21 +45,36 @@ namespace TP4P1.Controllers.Tests
 
 
 
-        [TestMethod()]
-        public async Task GetById()
-        {
-            var userId = 1;
-            var utilisateur = _context.Utilisateurs.FirstOrDefault(c => c.Id == userId);
-
-            var result = await _controller.GetUtilisateurById(1);
-            var resultUtilisateur = result.Value;
-
-            var resultfalse = await _controller.GetUtilisateurById(2);
-
-            Assert.AreEqual(utilisateur, resultUtilisateur);
-            Assert.AreNotEqual(utilisateur, resultfalse);
-        }
-        [TestMethod()]
+        [TestMethod]
+        public void GetUtilisateurById_ExistingIdPassed_ReturnsRightItem_AvecMoq()
+         {
+         // Arrange
+             Utilisateur user = new Utilisateur
+             {
+                 Id = 1,
+                 Nom = "Calida",
+                 Prenom = "Lilley",
+                 Mobile = "0653930778",
+                 Mail = "clilleymd@last.fm",
+                 Pwd = "Toto12345678!",
+                 Rue = "Impasse des bergeronnettes",
+                 CodePostal = "74200",
+                 Ville = "Allinges",
+                 Pays = "France",
+                 Latitude = 46.344795F,
+                 Longitude = 6.4885845F
+             };
+                    var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+                    mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(user);
+                    var userController = new UtilisateursController(mockRepository.Object);
+                    // Act
+                    var actionResult = userController.GetUtilisateurById(1).Result;
+                    // Assert
+                    Assert.IsNotNull(actionResult);
+             Assert.IsNotNull(actionResult.Value);
+             Assert.AreEqual(user, actionResult.Value as Utilisateur);
+         }
+    [TestMethod()]
         public async Task GetByEmail()
         {
             string email = "clilleymd@last.fm";
@@ -75,22 +91,18 @@ namespace TP4P1.Controllers.Tests
 
 
         [TestMethod]
-        public void Postutilisateur_ModelValidated_CreationOK()
+        public void Postutilisateur_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            Random rnd = new Random();
-            int chiffre = rnd.Next(1, 1000000000);
-            // Le mail doit être unique donc 2 possibilités :
-            // 1. on s'arrange pour que le mail soit unique en concaténant un random ou un timestamp
-            // 2. On supprime le user après l'avoir créé. Dans ce cas, nous avons besoin d'appeler la méthode DELETE de l’API
-            
-            Utilisateur userAtester = new Utilisateur()
+            var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+            var userController = new UtilisateursController(mockRepository.Object);
+            Utilisateur user = new Utilisateur
             {
-                Nom = "MACHIN",
-                Prenom = "Luc",
-                Mobile = "0606070809",
-                Mail = "machin" + chiffre + "@gmail.com",
-                Pwd = "Toto1234!",
+                Nom = "POISSON",
+                Prenom = "Pascal",
+                Mobile = "1",
+                Mail = "poisson@gmail.com",
+                Pwd = "Toto12345678!",
                 Rue = "Chemin de Bellevue",
                 CodePostal = "74940",
                 Ville = "Annecy-le-Vieux",
@@ -99,13 +111,15 @@ namespace TP4P1.Controllers.Tests
                 Longitude = null
             };
             // Act
-            var result = _controller.PostUtilisateur(userAtester).Result; // .Result pour appeler la méthode async de manière
+            var actionResult = userController.PostUtilisateur(user).Result;
             // Assert
-            Utilisateur? userRecupere = _context.Utilisateurs.Where(u => u.Mail.ToUpper() == userAtester.Mail.ToUpper()).FirstOrDefault(); // On récupère l'utilisateur créé directement dans la BD grace à son mail
-            userAtester.Id = userRecupere.Id;
-            Assert.AreEqual(userRecupere, userAtester, "Utilisateurs pas identiques");
+            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Utilisateur>), "Pas un ActionResult<Utilisateur>");
+            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
+            var result = actionResult.Result as CreatedAtActionResult;
+            Assert.IsInstanceOfType(result.Value, typeof(Utilisateur), "Pas un Utilisateur");
+            user.Id = ((Utilisateur)result.Value).Id;
+            Assert.AreEqual(user, (Utilisateur)result.Value, "Utilisateurs pas identiques");
         }
-
 
         [TestMethod]
         public async Task Pututilisateur_ModelValidated_CreationOK()
