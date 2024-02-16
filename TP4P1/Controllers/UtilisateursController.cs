@@ -93,7 +93,7 @@ namespace TP4P1.Controllers
             {
                 return BadRequest(ModelState);
             }
-            dataRepository.Add(utilisateur);
+            dataRepository.AddAsync(utilisateur);
             return CreatedAtAction("GetById", new { id = utilisateur.Id }, utilisateur); // GetById : nom de l’action
         }
         // DELETE: api/Utilisateurs/5
@@ -107,7 +107,7 @@ namespace TP4P1.Controllers
             {
                 return NotFound();
             }
-            dataRepository.Delete(utilisateur.Value);
+            dataRepository.DeleteAsync(utilisateur.Value);
             return NoContent();
         }
         //private bool UtilisateurExists(int id)

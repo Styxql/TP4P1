@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TP4P1.Models.EntityFramework;
 
 namespace TP4P1.Models.Repository
 {
@@ -8,8 +9,8 @@ namespace TP4P1.Models.Repository
         ActionResult<IEnumerable<TEntity>> GetAll();
         ActionResult<TEntity> GetById(int id);
         Task<ActionResult<TEntity>> GetByStringAsync(string str);
-        void Add(TEntity entity);
-        void Update(TEntity entityToUpdate, TEntity entity);
-        void Delete(TEntity entity);
+        Task AddAsync(TEntity entity);
+        Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
+        Task DeleteAsync(Utilisateur utilisateur);
     }
 }
