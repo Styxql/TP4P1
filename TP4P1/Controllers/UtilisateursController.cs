@@ -26,7 +26,7 @@ namespace TP4P1.Controllers
     [HttpGet]
         public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurs()
         {
-            return dataRepository.GetAll();
+            return await dataRepository.GetAllAsync();
         }
         // GET: api/Utilisateurs/5
         [HttpGet]
@@ -36,7 +36,7 @@ namespace TP4P1.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
-            var utilisateur = dataRepository.GetById(id);
+            var utilisateur = await dataRepository.GetByIdAsync(id);
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
             if (utilisateur == null)
             {
@@ -71,7 +71,7 @@ namespace TP4P1.Controllers
             {
                 return BadRequest();
             }
-            var userToUpdate = dataRepository.GetById(id);
+            var userToUpdate = await dataRepository.GetByIdAsync(id);
             if (userToUpdate == null)
             {
                 return NotFound();
@@ -102,7 +102,7 @@ namespace TP4P1.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
-            var utilisateur =  dataRepository.GetById(id);
+            var utilisateur =  await dataRepository.GetByIdAsync(id);
             if (utilisateur == null)
             {
                 return NotFound();

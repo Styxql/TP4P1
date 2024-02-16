@@ -108,7 +108,7 @@ namespace TP4P1.Controllers.Tests
 
 
         [TestMethod]
-        public void Pututilisateur_ModelValidated_CreationOK()
+        public async Task Pututilisateur_ModelValidated_CreationOK()
         {
             // Arrange
             Random rnd = new Random();
@@ -140,7 +140,7 @@ namespace TP4P1.Controllers.Tests
         }
 
         [TestMethod]
-        public void DeleteUtilisateurTest()
+        public async Task DeleteUtilisateurTest()
         {
             Random rnd = new Random();
             int chiffre = rnd.Next(1, 1000000000);
@@ -163,7 +163,7 @@ namespace TP4P1.Controllers.Tests
             
             _context.SaveChanges();
             int idUserDelete = userAtester.Id;
-            _controller.DeleteUtilisateur(idUserDelete);
+            await _controller.DeleteUtilisateur(idUserDelete);
 
             Assert.IsNull(_context.Utilisateurs.FirstOrDefault(u=>u.Id== idUserDelete));
         }

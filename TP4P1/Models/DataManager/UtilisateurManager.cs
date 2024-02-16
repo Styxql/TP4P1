@@ -14,13 +14,13 @@ namespace TP4P1.Models.DataManager
         {
             filmsDbContext = context;
         }
-        public ActionResult<IEnumerable<Utilisateur>> GetAll()
+        public async Task <ActionResult<IEnumerable<Utilisateur>>> GetAllAsync()
         {
-            return filmsDbContext.Utilisateurs.ToList();
+            return  filmsDbContext.Utilisateurs.ToList();
         }
-        public ActionResult<Utilisateur> GetById(int id)
+        public async Task <ActionResult<Utilisateur>> GetByIdAsync(int id)
         {
-            return filmsDbContext.Utilisateurs.FirstOrDefault(u => u.Id == id);
+            return  filmsDbContext.Utilisateurs.FirstOrDefault(u => u.Id == id);
         }
         public async Task<ActionResult<Utilisateur>> GetByStringAsync(string mail)
         {
