@@ -28,6 +28,9 @@ namespace TP4P1.Controllers.Tests
             _controller = new UtilisateursController(dataRepository);
         }
 
+
+     
+
         [TestMethod()]
         public async Task GetUtilisateursTest()
         {
@@ -35,9 +38,11 @@ namespace TP4P1.Controllers.Tests
 
             var result = await _controller.GetUtilisateurs();
             var utilisateur = result.Value.ToList();
-
+            
             CollectionAssert.AreEqual(utilisateurbd, utilisateur);
         }
+
+
 
         [TestMethod()]
         public async Task GetById()

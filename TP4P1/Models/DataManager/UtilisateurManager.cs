@@ -54,7 +54,7 @@ namespace TP4P1.Models.DataManager
         }
         public async Task DeleteAsync(Utilisateur utilisateur)
         {
-             filmsDbContext.Utilisateurs.Remove(utilisateur);
+                 filmsDbContext.Utilisateurs.Remove(utilisateur);
            await filmsDbContext.SaveChangesAsync();
         }
     }

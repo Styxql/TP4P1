@@ -78,7 +78,7 @@ namespace TP4P1.Controllers
             }
             else
             {
-                dataRepository.UpdateAsync(userToUpdate.Value, utilisateur);
+               await dataRepository.UpdateAsync(userToUpdate.Value, utilisateur);
                 return NoContent();
             }
         }
@@ -93,7 +93,7 @@ namespace TP4P1.Controllers
             {
                 return BadRequest(ModelState);
             }
-            dataRepository.AddAsync(utilisateur);
+           await dataRepository.AddAsync(utilisateur);
             return CreatedAtAction("GetById", new { id = utilisateur.Id }, utilisateur); // GetById : nom de l’action
         }
         // DELETE: api/Utilisateurs/5
@@ -102,12 +102,12 @@ namespace TP4P1.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
-            var utilisateur = dataRepository.GetById(id);
+            var utilisateur =  dataRepository.GetById(id);
             if (utilisateur == null)
             {
                 return NotFound();
             }
-            dataRepository.DeleteAsync(utilisateur.Value);
+           await dataRepository.DeleteAsync(utilisateur.Value);
             return NoContent();
         }
         //private bool UtilisateurExists(int id)
