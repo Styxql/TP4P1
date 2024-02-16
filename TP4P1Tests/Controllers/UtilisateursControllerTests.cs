@@ -31,14 +31,11 @@ namespace TP4P1.Controllers.Tests
         [TestMethod()]
         public async Task GetUtilisateursTest()
         {
-            // Chargez les utilisateurs de la base de données
             var utilisateurbd = await _context.Utilisateurs.ToListAsync();
 
-            // Appelez la méthode GetUtilisateurs du contrôleur
             var result = await _controller.GetUtilisateurs();
             var utilisateur = result.Value.ToList();
 
-            // Assurez-vous que les utilisateurs récupérés par la méthode GetUtilisateurs correspondent à ceux de la base de données
             CollectionAssert.AreEqual(utilisateurbd, utilisateur);
         }
 
