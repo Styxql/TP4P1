@@ -78,6 +78,8 @@ namespace TP4P1.Controllers.Tests
         public async Task GetByEmail()
         {
             var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+            var userController = new UtilisateursController(mockRepository.Object);
+
 
             //    string email = "clilleymd@last.fm";
             //    var utilisateur = _context.Utilisateurs.FirstOrDefault(c => c.Mail == email);
@@ -91,9 +93,29 @@ namespace TP4P1.Controllers.Tests
             //    Assert.AreNotEqual(utilisateur, resultfalse);*
 
 
-            string email = "clilleymd@last.fm";
-            mockRepository.
-            
+            Utilisateur user = new Utilisateur
+            {
+                Nom = "POISSON",
+                Prenom = "Pascal",
+                Mobile = "1",
+                Mail = "poisson@gmail.com",
+                Pwd = "Toto12345678!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Latitude = null,
+                Longitude = null
+            };
+
+            var utilisateur = mockRepository.Setup(x => x.GetByStringAsync("poisson@gmail.com").Result).Returns(user);
+
+            var actionResult=userController.GetUtilisateurByEmail("poisson@gmail.com").Result;
+
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(user, actionResult.Value as Utilisateur);
+
 
 
 
@@ -168,30 +190,58 @@ namespace TP4P1.Controllers.Tests
         [TestMethod]
         public async Task DeleteUtilisateurTest()
         {
-            Random rnd = new Random();
-            int chiffre = rnd.Next(1, 1000000000);
-            Utilisateur userAtester = new Utilisateur()
-            {
-                
-                Nom = "MACHIN",
-                Prenom = "Luc",
-                Mobile = "0606070809",
-                Mail = "machin" + chiffre + "@gmail.com",
-                Pwd = "Toto1234!",
-                Rue = "Chemin de Bellevue",
-                CodePostal = "74940",
-                Ville = "Annecy-le-Vieux",
-                Pays = "France",
-                Latitude = null,
-                Longitude = null
-            };
-            _context.Add(userAtester);
-            
-            _context.SaveChanges();
-            int idUserDelete = userAtester.Id;
-            await _controller.DeleteUtilisateur(idUserDelete);
+            //Random rnd = new Random();
+            //int chiffre = rnd.Next(1, 1000000000);
+            //Utilisateur userAtester = new Utilisateur()
+            //{
 
-            Assert.IsNull(_context.Utilisateurs.FirstOrDefault(u=>u.Id== idUserDelete));
+            //    Nom = "MACHIN",
+            //    Prenom = "Luc",
+            //    Mobile = "0606070809",
+            //    Mail = "machin" + chiffre + "@gmail.com",
+            //    Pwd = "Toto1234!",
+            //    Rue = "Chemin de Bellevue",
+            //    CodePostal = "74940",
+            //    Ville = "Annecy-le-Vieux",
+            //    Pays = "France",
+            //    Latitude = null,
+            //    Longitude = null
+            //};
+            //_context.Add(userAtester);
+
+            //_context.SaveChanges();
+            //int idUserDelete = userAtester.Id;
+            //await _controller.DeleteUtilisateur(idUserDelete);
+
+            //Assert.IsNull(_context.Utilisateurs.FirstOrDefault(u=>u.Id== idUserDelete));
+
+
+
+            Utilisateur user = new Utilisateur
+            {
+                Id = 1,
+                Nom = "Calida",
+                Prenom = "Lilley",
+                Mobile = "0653930778",
+                Mail = "clilleymd@last.fm",
+                Pwd = "Toto12345678!",
+                Rue = "Impasse des bergeronnettes",
+                CodePostal = "74200",
+                Ville = "Allinges",
+                Pays = "France",
+                Latitude = 46.344795F,
+                Longitude = 6.4885845F
+            };
+            var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+            mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(user);
+
+
+            var userController = new UtilisateursController(mockRepository.Object);
+            // Act
+            var actionResult = userController.DeleteUtilisateur(1).Result;
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+
         }
 
     }
