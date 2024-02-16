@@ -20,7 +20,7 @@ namespace TP4P1.Models.DataManager
         }
         public async Task <ActionResult<Utilisateur>> GetByIdAsync(int id)
         {
-            return  filmsDbContext.Utilisateurs.FirstOrDefault(u => u.Id == id);
+            return   filmsDbContext.Utilisateurs.FirstOrDefault(u => u.Id == id);
         }
         public async Task<ActionResult<Utilisateur>> GetByStringAsync(string mail)
         {
