@@ -74,19 +74,31 @@ namespace TP4P1.Controllers.Tests
              Assert.IsNotNull(actionResult.Value);
              Assert.AreEqual(user, actionResult.Value as Utilisateur);
          }
-    [TestMethod()]
+        [TestMethod()]
         public async Task GetByEmail()
         {
+            var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+
+            //    string email = "clilleymd@last.fm";
+            //    var utilisateur = _context.Utilisateurs.FirstOrDefault(c => c.Mail == email);
+
+            //    var result = await _controller.GetUtilisateurByEmail(email);
+            //    var resultUtilisateur = result.Value;
+
+            //    var resultfalse = await _controller.GetUtilisateurByEmail("salut@gmail.com");
+
+            //    Assert.AreEqual(utilisateur, resultUtilisateur);
+            //    Assert.AreNotEqual(utilisateur, resultfalse);*
+
+
             string email = "clilleymd@last.fm";
-            var utilisateur = _context.Utilisateurs.FirstOrDefault(c => c.Mail == email);
+            mockRepository.
+            
 
-            var result = await _controller.GetUtilisateurByEmail(email);
-            var resultUtilisateur = result.Value;
 
-            var resultfalse = await _controller.GetUtilisateurByEmail("salut@gmail.com");
 
-            Assert.AreEqual(utilisateur, resultUtilisateur);
-            Assert.AreNotEqual(utilisateur, resultfalse);
+
+
         }
 
 
