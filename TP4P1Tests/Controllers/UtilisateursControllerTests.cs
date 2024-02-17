@@ -181,9 +181,11 @@ namespace TP4P1.Controllers.Tests
                 Longitude = null
             };
             // Act
-            var result = _controller.PutUtilisateur(iduseramodif,userAtester).Result; // .Result pour appeler la méthode async de manière
+            var result = _controller.PutUtilisateur(iduseramodif, userAtester).Result; // .Result pour appeler la méthode async de manière
             // Assert
-            Utilisateur? userRecupere = _context.Utilisateurs.FirstOrDefault(u => u.Id == userAtester.Id);// On récupère l'utilisateur créé directement dans la BD grace à son mail
+            Utilisateur? userRecupere = _context.Utilisateurs.Where(u => u.Mail.ToUpper() == userAtester.Mail.ToUpper()).FirstOrDefault();
+            userAtester.Id = userRecupere.Id;
+            // On récupère l'utilisateur créé directement dans la BD grace à son mail
             Assert.AreEqual(userRecupere, userAtester, "Utilisateurs pas identiques");
         }
 
